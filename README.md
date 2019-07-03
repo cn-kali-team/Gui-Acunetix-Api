@@ -1,7 +1,7 @@
 # Gui-Acunetix-Api
 图形化Acunetix批量扫描工具
 
-![1562142947188](README.assets/1562142947188.png)
+![1562142947188](assets/1562142947188.png)
 
 ## 开发环境
 
