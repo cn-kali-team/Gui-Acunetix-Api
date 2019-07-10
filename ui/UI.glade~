@@ -32,7 +32,7 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
     <property name="comments" translatable="yes">GTK从零到入门，感谢StackOverflow</property>
     <property name="website">https://kali-team.cn</property>
     <property name="authors">Kali-Team</property>
-    <property name="logo">../../../PICTURES/K/av-64.jpg</property>
+    <property name="logo">av-64.jpg</property>
     <property name="license_type">lgpl-3-0</property>
     <child>
       <placeholder/>
