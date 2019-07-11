@@ -111,6 +111,7 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
+        <signal name="activate" handler="on_delete_target_activate" swapped="no"/>
       </object>
     </child>
     <child>
@@ -199,6 +200,52 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
       </object>
     </child>
   </object>
+  <object class="GtkMessageDialog">
+    <property name="can_focus">False</property>
+    <property name="type_hint">dialog</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="button3">
+                <property name="label">gtk-close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-7">button3</action-widget>
+    </action-widgets>
+  </object>
   <object class="GtkFileFilter" id="filefilter_md">
     <mime-types>
       <mime-type>text-x-markdown</mime-type>
@@ -230,7 +277,11 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
       <column type="gchararray"/>
       <!-- column-name 任务ID -->
       <column type="gchararray"/>
+      <!-- column-name 状态 -->
+      <column type="gchararray"/>
       <!-- column-name URL -->
+      <column type="gchararray"/>
+      <!-- column-name Data -->
       <column type="gchararray"/>
       <!-- column-name 数据库类型 -->
       <column type="gchararray"/>
@@ -352,12 +403,13 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                   </object>
                 </child>
                 <child>
-                  <object class="GtkImageMenuItem">
+                  <object class="GtkImageMenuItem" id="gtk_quit">
                     <property name="label">gtk-quit</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="use_underline">True</property>
                     <property name="use_stock">True</property>
+                    <signal name="activate" handler="on_gtk_quit_activate" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -412,14 +464,6 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                 </child>
               </object>
             </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkMenuItem">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">视图(_V)</property>
-            <property name="use_underline">True</property>
           </object>
         </child>
         <child>
@@ -1414,6 +1458,7 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="model">list_store_sql_injection</property>
+                    <property name="reorderable">True</property>
                     <property name="enable_grid_lines">both</property>
                     <signal name="button-press-event" handler="on_tree_view_sql_injection_button_press_event" swapped="no"/>
                     <child internal-child="selection">
@@ -1431,10 +1476,20 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn">
+                        <property name="title" translatable="yes">状态</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn">
                         <property name="resizable">True</property>
                         <property name="sizing">fixed</property>
                         <property name="fixed_width">250</property>
                         <property name="title" translatable="yes">URL</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn">
+                        <property name="title" translatable="yes">Data</property>
                       </object>
                     </child>
                     <child>
@@ -1493,9 +1548,9 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
   </object>
   <object class="GtkAboutDialog" id="About">
     <property name="can_focus">False</property>
-    <property name="type">popup</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
+    <property name="icon_name">dialog-information</property>
     <property name="type_hint">dialog</property>
     <property name="attached_to">main_window</property>
     <property name="program_name">Gui-Acunetix-Api</property>

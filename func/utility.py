@@ -17,9 +17,11 @@ class HTTPRequest(BaseHTTPRequestHandler):
         self.parse_request()
 
         self.headers = dict(self.headers)
+        print(raw_http_request[raw_http_request.index("\r\n\r\n") + 4:].rstrip())
         # Data
         try:
-            self.data = raw_http_request[raw_http_request.index("\n\n") + 2:].rstrip()
+            self.data = raw_http_request[raw_http_request.index("\r\n\r\n") + 4:].rstrip()
+            print(self.data)
         except ValueError:
             self.data = None
 
