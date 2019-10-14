@@ -15,9 +15,9 @@ class HTTPRequest(BaseHTTPRequestHandler):
         self.rfile = io.BytesIO(raw_http_request.encode())
         self.raw_requestline = self.rfile.readline()
         self.parse_request()
-
-        self.headers = dict(self.headers)
-        print(raw_http_request[raw_http_request.index("\r\n\r\n") + 4:].rstrip())
+        # print(self.headers)
+        # self.headers = dict(self.headers)
+        # print(raw_http_request[raw_http_request.index("\r\n\r\n") + 4:].rstrip())
         # Data
         try:
             self.data = raw_http_request[raw_http_request.index("\r\n\r\n") + 4:].rstrip()

@@ -95,22 +95,20 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
     <property name="can_focus">False</property>
     <property name="menu_type_hint">dropdown-menu</property>
     <child>
-      <object class="GtkImageMenuItem" id="refresh_target">
-        <property name="label">gtk-refresh</property>
+      <object class="GtkMenuItem" id="refresh_target">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">刷新</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
         <signal name="activate" handler="on_refresh_target_activate" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="delete_target">
-        <property name="label">gtk-delete</property>
+      <object class="GtkMenuItem" id="delete_target">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">删除选中</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
         <signal name="activate" handler="on_delete_target_activate" swapped="no"/>
       </object>
     </child>
@@ -121,12 +119,11 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="report_add">
-        <property name="label">gtk-add</property>
+      <object class="GtkMenuItem" id="report_add">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">添加报告</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
         <signal name="activate" handler="on_report_add_activate" swapped="no"/>
       </object>
     </child>
@@ -137,12 +134,11 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="gtk_find_vulnerabilities">
-        <property name="label">gtk-find</property>
+      <object class="GtkMenuItem" id="gtk_find_vulnerabilities">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">查看漏洞</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
         <signal name="activate" handler="on_gtk_find_vulnerabilities_activate" swapped="no"/>
       </object>
     </child>
@@ -488,6 +484,15 @@ along with .  If not, see <http://www.gnu.org/licenses/>.
                 </child>
               </object>
             </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuItem">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="right_justified">True</property>
+            <property name="label" translatable="yes">Kali-Team</property>
+            <property name="use_underline">True</property>
           </object>
         </child>
       </object>

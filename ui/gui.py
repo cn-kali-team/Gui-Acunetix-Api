@@ -1,5 +1,6 @@
 import gi
 from configparser import ConfigParser
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 import os
@@ -10,6 +11,7 @@ import func.report
 from concurrent import futures
 import ast
 import func.utility as util
+
 
 def whatis(obj): return print(type(obj), "\n\t" + "\n\t".join(dir(obj)))
 
@@ -129,8 +131,7 @@ class MainWindow:
         self.list_store_target.clear()
 
     def on_combobox_text_host_changed(self, combo, data=None):
-        api_host, api_key = [cfg.get(combo.get_active_text(), "host"), cfg.get(
-            combo.get_active_text(), "key")]
+        api_host, api_key = [cfg.get(combo.get_active_text(), "host"), cfg.get(combo.get_active_text(), "key")]
         self.scan = ScanApi(api_host, api_key)
         self.vulnerabilities = VulnerabilitiesApi(
             self.scan.host, self.scan.headers)
@@ -179,10 +180,13 @@ class MainWindow:
 
     def on_report_add_activate(self, widget, event=None):
         print("添加报告")
-        model = self.tree_view_target.get_model()
-        for row in model:
-            print(row[1])
-            self.scan.add_scan_to_report(scan_id=row[3])
+        selection = self.tree_view_target.get_selection()
+        (model, path_list) = selection.get_selected_rows()
+        print(model, path_list)
+        for path in path_list:
+            tree_iter = model.get_iter(path)
+            value = model.get_value(tree_iter, 3)
+            self.scan.add_scan_to_report(scan_id=value)
 
     def on_delete_report_activate(self, widget, event=None):
         selection = self.tree_view_reports.get_selection()
@@ -206,18 +210,18 @@ class MainWindow:
         (model, path_list) = selection.get_selected_rows()
         for path in path_list:
             tree_iter = model.get_iter(path)
-            value = model.get_value(tree_iter, 7)
-            Gtk.show_uri_on_window(
-                None, self.scan.host[:-8] + value, Gdk.CURRENT_TIME)
+            value = ast.literal_eval(model.get_value(tree_iter, 7))
+            if value is not None:
+                Gtk.show_uri_on_window(None, self.scan.host[:-8] + value[0], Gdk.CURRENT_TIME)
 
     def on_dl_report_pdf_activate(self, widget, event=None):
         selection = self.tree_view_reports.get_selection()
         (model, path_list) = selection.get_selected_rows()
         for path in path_list:
             tree_iter = model.get_iter(path)
-            value = model.get_value(tree_iter, 7)[:-4] + "pdf"
-            Gtk.show_uri_on_window(
-                None, self.scan.host[:-8] + value, Gdk.CURRENT_TIME)
+            value = ast.literal_eval(model.get_value(tree_iter, 7))
+            if value is not None:
+                Gtk.show_uri_on_window(None, self.scan.host[:-8] + value[1], Gdk.CURRENT_TIME)
 
     def on_gtk_find_vulnerabilities_activate(self, widget, event=None):
         model = self.tree_view_target.get_model()
@@ -255,11 +259,13 @@ class MainWindow:
             tree_iter = model.get_iter(path)
             target_url = model.get_value(tree_iter, 2)
             raw = model.get_value(tree_iter, 3)
-            request_info = util.HTTPRequest(
-                raw_http_request=ast.literal_eval(raw).decode())
-            scheme, netloc, path, query, fragment = urllib.parse.urlsplit(
-                target_url)
-            value = scheme + "://" + netloc + request_info.path
+            request_info = util.HTTPRequest(raw_http_request=ast.literal_eval(raw).decode())
+            print(request_info)
+            scheme, netloc, path, query, fragment = urllib.parse.urlsplit(target_url)
+            if hasattr(request_info,'path'):
+                value = scheme + "://" + netloc + request_info.path
+            else:
+                value = scheme + "://" + netloc
             Gtk.show_uri_on_window(None, value, Gdk.CURRENT_TIME)
 
     def on_copy_requests_activate(self, widget, event=None):

@@ -4,7 +4,7 @@
 import json
 import requests
 import urllib3
-import os
+import logging
 import time
 import func.utility as util
 
@@ -27,6 +27,9 @@ class ScanApi:
     def get_target_info(self, gui_obj):
         gui_obj.clear()
         responder = requests.get(url=self.host + "scans", headers=self.headers, verify=False).json()
+        if responder.get('code') == 401:
+            print(responder)
+        print(type(responder))
         targets_list = responder.get("scans")
         for info in targets_list:
             gui_obj.insert_before(None, [info["target"].get("address"), info.get("target_id"),
@@ -114,7 +117,7 @@ class ScanApi:
                                          info.get("generation_date"),
                                          info.get("template_name"),
                                          info["source"].get("description").split(";")[1],
-                                         info.get("download")[0]])
+                                         str(info.get("download"))])
 
     def del_report_from_scan(self, report_id):
         responder = requests.delete(url=self.host + "reports/" + report_id, headers=self.headers, verify=False)
